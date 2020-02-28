@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weichuang.mapper.CustomerMapper">
+
+    <select id="getTotalByQueryVo" resultType="Integer" parameterType="QueryVo">
+        select count(*) from customer
+        <where>
+            <if test="custName != null and custName != ''">
+                and cust_name like "%"#{custName}"%"
+            </if>
+            <if test="custSource != null and custSource != ''">
+                and cust_source like "%"#{custSource}"%"
+            </if>
+            <if test="custIndustry != null and custIndustry != ''">
+                and cust_industry like "%"#{custIndustry}"%"
+            </if>
+            <if test="custLevel != null and custLevel != ''">
+                and cust_level like "%"#{custLevel}"%"
+            </if>
+        </where>
+    </select>
+    <select id="getRowsByQueryVo" resultType="Customer" parameterType="QueryVo">
+        select * from customer
+        <where>
+            <if test="custName != null and custName != ''">
+                and cust_name like "%"#{custName}"%"
+            </if>
+            <if test="custSource != null and custSource != ''">
+                and cust_source like "%"#{custSource}"%"
+            </if>
+            <if test="custIndustry != null and custIndustry != ''">
+                and cust_industry like "%"#{custIndustry}"%"
+            </if>
+            <if test="custLevel != null and custLevel != ''">
+                and cust_level like "%"#{custLevel}"%"
+            </if>
+        </where>
+        limit #{startIndex} , #{maxCount}
+    </select>
+    <select id="getCustomerById" parameterType="Integer" resultType="Customer">
+        select * from customer where cust_id = #{id}
+    </select>
+
+    <update id="customerUpdate" parameterType="Customer">
+        update customer
+        <set>
+            <if test="cust_name != null and cust_name != ''">
+                cust_name = #{cust_name},
+            </if>
+            <if test="cust_source != null and cust_source != ''">
+                cust_source = #{cust_source},
+            </if>
+            <if test="cust_industry != null and cust_industry != ''">
+                cust_industry = #{cust_industry},
+            </if>
+            <if test="cust_level != null and cust_level != ''">
+                cust_level = #{cust_level},
+            </if>
+            <if test="cust_linkman != null and cust_linkman != ''">
+                cust_linkman = #{cust_linkman},
+            </if>
+            <if test="cust_phone != null and cust_phone != ''">
+                cust_phone = #{cust_phone},
+            </if>
+            <if test="cust_mobile != null and cust_mobile != ''">
+                cust_mobile = #{cust_mobile},
+            </if>
+            cust_id = #{cust_id}
+        </set>
+        <where>
+            cust_id = #{cust_id}
+        </where>
+    </update>
+    <delete id="customerDelete" parameterType="Integer">
+        delete from customer where cust_id = #{id}
+    </delete>
+
+</mapper>
